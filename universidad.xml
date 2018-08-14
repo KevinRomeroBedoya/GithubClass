@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<universidad>
+  <estudiante>
+    <nombre>kevin</nombre>
+    <telefono>3183850218</telefono>
+    <correo>kevin.romero</correo>
+    <codigo>2170272</codigo>
+    <carrera>Multimeidia</carrera>
+  </estudiante>
+</universidad>

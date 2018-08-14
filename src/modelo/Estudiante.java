@@ -9,6 +9,10 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 
 /**
  *
@@ -22,7 +26,7 @@ public class Estudiante extends Persona {
     public Estudiante() {
     }
 
-    public Estudiante(String codigo, String carrera, String nombre, String telefono, String correo) {
+    public Estudiante(String nombre, String telefono, String codigo, String carrera, String correo) {
         super(nombre, telefono, correo);
         this.codigo = codigo;
         this.carrera = carrera;
@@ -82,7 +86,7 @@ public class Estudiante extends Persona {
             }
             bfwriter.close();
             System.out.println("Archivo creado satisfactoriamente..");
-            g=true;
+            g = true;
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -98,4 +102,42 @@ public class Estudiante extends Persona {
         return g;
     }
 
+    public boolean crearArchivoXML(LinkedList<Estudiante> ListaE) {
+
+        boolean g = false;
+
+        try {
+            //creacion del elemento
+            Element universidad = new Element("universidad");
+            Document doc = new Document(universidad);
+            //ciclo para guardar datos
+            for (int i = 0; i < ListaE.size(); i++) {
+
+                //creacion del documento
+                Element estudiante = new Element("estudiante");
+
+                //obtener los datos de la lista y gardardarlos en el elemento "estudiante"
+                estudiante.addContent(new Element("nombre").setText(ListaE.get(i).getNombre()));
+
+                estudiante.addContent(new Element("telefono").setText(ListaE.get(i).getTelefono()));
+
+                estudiante.addContent(new Element("correo").setText(ListaE.get(i).getCorreo()));
+
+                estudiante.addContent(new Element("codigo").setText(ListaE.get(i).getCodigo()));
+
+                estudiante.addContent(new Element("carrera").setText(ListaE.get(i).getCarrera()));
+
+                doc.getRootElement().addContent(estudiante);
+            }
+            XMLOutputter xmlOutput = new XMLOutputter();
+            xmlOutput.setFormat(Format.getPrettyFormat());
+            xmlOutput.output(doc, new FileWriter("universidad.xml"));
+
+        } catch (IOException io) {
+            
+            System.out.println(io.getMessage());
+            g = false;
+        }
+        return g;
+    }
 }
